@@ -13,7 +13,20 @@ const AddUser = (props) => {
   const addUserHandler = () => {
     // prevents the default, which is that a request is sent and the page reloads
     event.preventDefault();
-    console.log(enteredUsername, enteredAge)
+    // make sure theres correct info added - something typed, isnt empty (the 0)
+    if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
+      // return statements finish the function execution so if this is returned, the next lines of code aren't ran
+      return;
+    }
+    // enteredAge is actually a string, force a conversion to a number with the +
+    if (+enteredAge < 1) {
+      return;
+    }
+    console.log(enteredUsername, enteredAge);
+    // setting these back to an empty string and adding the current state to value in the return statement
+    // empties the form after clicking/submitting AddUser
+    setEnteredUsername('');
+    setEnteredAge('');
   };
 
   const usernameChangeHandler = (event) => {
@@ -33,9 +46,9 @@ const AddUser = (props) => {
       {/* The info below will be output in/on the Card. props.children in Card */}
       <form onSubmit={addUserHandler}>
         <label htmlFor='username'>Username</label>
-        <input id='username' type='text' onChange={usernameChangeHandler} />
+        <input id='username' type='text' value={enteredUsername} onChange={usernameChangeHandler} />
         <label htmlFor='age'>Age (Years)</label>
-        <input id='age' type='number' onChange={ageChangeHandler} />
+        <input id='age' type='number' value={enteredAge} onChange={ageChangeHandler} />
         <Button type='submit'>Add User</Button>
       </form>
     </Card>

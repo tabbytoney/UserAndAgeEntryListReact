@@ -9,6 +9,9 @@ const AddUser = (props) => {
   // Beginning state is 'no input'/empty string bc the form starts as blank
   const [enteredUsername, setEnteredUsername] = useState('');
   const [enteredAge, setEnteredAge] = useState('');
+  // empty because there's no initial "state"
+  // the 'error' stores the latest state as a snapshot. We can use it in <ErrorModal> below to make it render
+  const [error, setError] = useState();
 
   // add function/handler for what to do when you submit the information
   const addUserHandler = (event) => {
@@ -16,11 +19,19 @@ const AddUser = (props) => {
     event.preventDefault();
     // make sure theres correct info added - something typed, isnt empty (the 0)
     if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
-      // return statements finish the function execution so if this is returned, the next lines of code aren't ran
+      // managing the error as an object
+      setError({
+        title: 'Invalid input',
+        message: 'Please enter a valid name and age'
+      });
       return;
     }
     // enteredAge is actually a string, force a conversion to a number with the +
     if (+enteredAge < 1) {
+      setError({
+        title: 'Invalid age',
+        message: 'Please enter a valid age'
+      });
       return;
     }
     // console.log(enteredUsername, enteredAge);
@@ -37,6 +48,12 @@ const AddUser = (props) => {
     setEnteredUsername(event.target.value);
   };
 
+  // Need to be able to dismiss error modal, is pointed to by onConfirm below
+  const errorHandler = () => {
+    // sets error to a falsy value, so ErrorModal won't render
+    setError(null);
+  };
+
   const ageChangeHandler = (event) => {
     // event.target.value gets the input added to the age textbox
     setEnteredAge(event.target.value);
@@ -46,7 +63,8 @@ const AddUser = (props) => {
   // htmlFor is how you assign 'For' in JSX, it's for screenreaders
   return (
     <div>
-      <ErrorModal title='An error occurred' message='Something went wrong!' />
+      {/* error checks if there is in fact an error "state", if so, it renders the ErrorModal */}
+      {error && <ErrorModal title={error.title} message={error.message} onConfirm={errorHandler} />}
       <Card className={classes.input}>
         {/* The info below will be output in/on the Card. props.children in Card */}
         <form onSubmit={addUserHandler}>

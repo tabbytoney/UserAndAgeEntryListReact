@@ -4,6 +4,7 @@ import Card from '../UI/Card';
 import classes from './AddUser.module.css';
 import Button from '../UI/Button';
 import ErrorModal from '../UI/ErrorModal';
+import Wrapper from '../Helpers/Wrapper';
 
 const AddUser = (props) => {
   // Beginning state is 'no input'/empty string bc the form starts as blank
@@ -62,7 +63,7 @@ const AddUser = (props) => {
   // add an age, name
   // htmlFor is how you assign 'For' in JSX, it's for screenreaders
   return (
-    <div>
+    <Wrapper>
       {/* error checks if there is in fact an error "state", if so, it renders the ErrorModal */}
       {error && <ErrorModal title={error.title} message={error.message} onConfirm={errorHandler} />}
       <Card className={classes.input}>
@@ -75,7 +76,7 @@ const AddUser = (props) => {
           <Button type='submit'>Add User</Button>
         </form>
       </Card>
-    </div>
+    </Wrapper>
   );
 };
 

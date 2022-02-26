@@ -7,7 +7,8 @@ const ErrorModal = (props) => {
   // using props.title, etc so the message is different depending on the circumstance
   return (
     <div>
-      <div className={classes.backdrop} />
+      {/* onConfirm can be named anything, it's in ErrorModal used in AddUser.js */}
+      <div className={classes.backdrop} onClick={props.onConfirm} />
       <Card className={classes.modal}>
         <header className={classes.header}>
           <h2>{props.title}</h2>
@@ -16,7 +17,7 @@ const ErrorModal = (props) => {
           <p>{props.message}</p>
         </div>
         <footer className={classes.actions}>
-          <Button>Okay</Button>
+          <Button onClick={props.onConfirm}>Okay</Button>
         </footer>
       </Card>
     </div>

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Card from '../UI/Card';
 import classes from './AddUser.module.css';
 import Button from '../UI/Button';
+import ErrorModal from '../UI/ErrorModal';
 
 const AddUser = (props) => {
   // Beginning state is 'no input'/empty string bc the form starts as blank
@@ -44,16 +45,19 @@ const AddUser = (props) => {
   // add an age, name
   // htmlFor is how you assign 'For' in JSX, it's for screenreaders
   return (
-    <Card className={classes.input}>
-      {/* The info below will be output in/on the Card. props.children in Card */}
-      <form onSubmit={addUserHandler}>
-        <label htmlFor='username'>Username</label>
-        <input id='username' type='text' value={enteredUsername} onChange={usernameChangeHandler} />
-        <label htmlFor='age'>Age (Years)</label>
-        <input id='age' type='number' value={enteredAge} onChange={ageChangeHandler} />
-        <Button type='submit'>Add User</Button>
-      </form>
-    </Card>
+    <div>
+      <ErrorModal title='An error occurred' message='Something went wrong!' />
+      <Card className={classes.input}>
+        {/* The info below will be output in/on the Card. props.children in Card */}
+        <form onSubmit={addUserHandler}>
+          <label htmlFor='username'>Username</label>
+          <input id='username' type='text' value={enteredUsername} onChange={usernameChangeHandler} />
+          <label htmlFor='age'>Age (Years)</label>
+          <input id='age' type='number' value={enteredAge} onChange={ageChangeHandler} />
+          <Button type='submit'>Add User</Button>
+        </form>
+      </Card>
+    </div>
   );
 };
 

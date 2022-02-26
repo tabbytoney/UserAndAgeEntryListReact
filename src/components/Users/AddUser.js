@@ -10,7 +10,7 @@ const AddUser = (props) => {
   const [enteredAge, setEnteredAge] = useState('');
 
   // add function/handler for what to do when you submit the information
-  const addUserHandler = () => {
+  const addUserHandler = (event) => {
     // prevents the default, which is that a request is sent and the page reloads
     event.preventDefault();
     // make sure theres correct info added - something typed, isnt empty (the 0)
@@ -22,7 +22,9 @@ const AddUser = (props) => {
     if (+enteredAge < 1) {
       return;
     }
-    console.log(enteredUsername, enteredAge);
+    // console.log(enteredUsername, enteredAge);
+    // enteredUsername and enteredAge forwards this info to the App component
+    props.onAddUser(enteredUsername, enteredAge);
     // setting these back to an empty string and adding the current state to value in the return statement
     // empties the form after clicking/submitting AddUser
     setEnteredUsername('');

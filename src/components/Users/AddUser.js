@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Card from '../UI/Card';
 import classes from './AddUser.module.css';
 import Button from '../UI/Button';
@@ -7,6 +7,11 @@ import ErrorModal from '../UI/ErrorModal';
 import Wrapper from '../Helpers/Wrapper';
 
 const AddUser = (props) => {
+  // Using 'refs'. Connects ref to thbe return below
+  // the refs are objects that hold a current prop that holds the actual value that ref is connected with.
+  const nameInputRef = useRef();
+  const ageInputRef = useRef();
+
   // Beginning state is 'no input'/empty string bc the form starts as blank
   const [enteredUsername, setEnteredUsername] = useState('');
   const [enteredAge, setEnteredAge] = useState('');
@@ -18,6 +23,8 @@ const AddUser = (props) => {
   const addUserHandler = (event) => {
     // prevents the default, which is that a request is sent and the page reloads
     event.preventDefault();
+    // can assign this ref as a variable, use it instead of enteredUsername and enteredAge states
+    console.log(nameInputRef.current.value);
     // make sure theres correct info added - something typed, isnt empty (the 0)
     if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
       // managing the error as an object
@@ -70,9 +77,15 @@ const AddUser = (props) => {
         {/* The info below will be output in/on the Card. props.children in Card */}
         <form onSubmit={addUserHandler}>
           <label htmlFor='username'>Username</label>
-          <input id='username' type='text' value={enteredUsername} onChange={usernameChangeHandler} />
+          <input
+            id='username'
+            type='text'
+            value={enteredUsername}
+            onChange={usernameChangeHandler}
+            ref={nameInputRef}
+          />
           <label htmlFor='age'>Age (Years)</label>
-          <input id='age' type='number' value={enteredAge} onChange={ageChangeHandler} />
+          <input id='age' type='number' value={enteredAge} onChange={ageChangeHandler} ref={ageInputRef} />
           <Button type='submit'>Add User</Button>
         </form>
       </Card>
